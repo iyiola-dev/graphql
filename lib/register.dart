@@ -11,13 +11,18 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-  String register = """
-  mutation Register( \$email: String!, \$username: String!, \$referralCode: String!, \$password: String!, 
-  \$phonenumber: String!,  \$callingCode: String!,
-\$flag: String!,
-\$phoneNumber: String!
+  String register() {
+    return """
+  mutation Register( \$email: String!, 
+  \$username: String!, 
+  \$referralCode: String, 
+  \$password: String!, 
+  \$phonenumber: String!, 
+  \$callingCode: String,
+  \$flag: String,
+  \$phoneNumber: String
   ){
-    action: register(data:{
+     register(data:{
       email : \$email
       username : \$username,
       referralCode : \$referralCode,
@@ -36,6 +41,8 @@ class _RegisterState extends State<Register> {
    
   }
   """;
+  }
+
   Mutquery mut = Mutquery();
   QueryResult result = QueryResult();
   TextEditingController emailController = TextEditingController();
@@ -54,12 +61,12 @@ class _RegisterState extends State<Register> {
             padding: const EdgeInsets.all(16),
             child: Mutation(
                 options: MutationOptions(
-                  documentNode: gql(register),
+                  documentNode: gql(register()),
                   onCompleted: (data) {
                     print(data);
                   },
                   onError: (error) {
-                    print(error);
+                    print(error.graphqlErrors[0]);
                   },
                 ),
                 builder: (RunMutation runMutation, QueryResult result) {
@@ -77,6 +84,7 @@ class _RegisterState extends State<Register> {
                           height: 50,
                         ),
                         TextFormField(
+                          controller: emailController,
                           validator: (value) {
                             return RegExp(
                                         r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
@@ -95,6 +103,7 @@ class _RegisterState extends State<Register> {
                           height: 30,
                         ),
                         TextFormField(
+                          controller: userName,
                           validator: (val) {
                             return val.isEmpty || val.length < 3
                                 ? 'please provide a valid username not less than 3'
@@ -111,6 +120,7 @@ class _RegisterState extends State<Register> {
                           height: 30,
                         ),
                         TextFormField(
+                          controller: passwordController,
                           validator: (val) {
                             return val.isEmpty || val.length < 3
                                 ? 'please provide a valid password not less than 3'
@@ -128,6 +138,7 @@ class _RegisterState extends State<Register> {
                           height: 30,
                         ),
                         TextFormField(
+                          controller: referralCode,
                           decoration: InputDecoration(
                               prefixIcon: Icon(Icons.link),
                               hintText: 'Refferal Code ',
@@ -143,7 +154,6 @@ class _RegisterState extends State<Register> {
                           selectorConfig: SelectorConfig(
                               selectorType:
                                   PhoneInputSelectorType.BOTTOM_SHEET),
-                          textFieldController: referralCode,
                           initialValue: PhoneNumber(isoCode: 'NG'),
                           onInputChanged: (value) {
                             setState(() {
@@ -161,28 +171,19 @@ class _RegisterState extends State<Register> {
                         GestureDetector(
                           onTap: () async {
                             if (_formKey.currentState.validate()) {
-                              try {
-                                runMutation({
-                                  'data': {
-                                    'email': emailController.text.toString(),
-                                    'username': userName.text.toString(),
-                                    'phonenumber':
-                                        phoneNumber.phoneNumber.toString(),
-                                    'password': passwordController.text,
-                                    'referralCode': referralCode.text,
-                                    'phoneNumberDetails': {
-                                      'callingCode': phoneNumber.dialCode,
-                                      'flag': phoneNumber.isoCode,
-                                      'phonenumber': phoneNumber.phoneNumber
-                                    }
-                                    /* 'callingCode': phoneNumber.dialCode,
-                                    'flag': phoneNumber.isoCode,
-                                    'phonenumber': phoneNumber.phoneNumber */
-                                  }
-                                });
-                              } catch (e) {
-                                print(e.toString());
-                              }
+                              print(emailController.text);
+                              runMutation({
+                                "data": {
+                                  'email': emailController.text,
+                                  'username': userName.text.trim(),
+                                  'phonenumber': phoneNumber.phoneNumber,
+                                  'password': passwordController.text,
+                                  'referralCode': referralCode.text,
+                                  'callingCode': phoneNumber.dialCode,
+                                  'flag': phoneNumber.isoCode,
+                                  'phoneNumber': phoneNumber.phoneNumber
+                                }
+                              });
                             }
                           },
                           child: Container(
