@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:graph/register.dart';
+import 'package:graph/views/register.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 class Login extends StatelessWidget {

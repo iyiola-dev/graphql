@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:graph/graphql.dart';
-import 'package:graph/verification.dart';
+
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
@@ -43,7 +42,6 @@ class _RegisterState extends State<Register> {
   """;
   }
 
-  Mutquery mut = Mutquery();
   QueryResult result = QueryResult();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();

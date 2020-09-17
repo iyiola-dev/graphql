@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:graph/login.dart';
+import 'package:graph/views/login.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 void main() {
