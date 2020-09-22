@@ -171,16 +171,14 @@ class _RegisterState extends State<Register> {
                             if (_formKey.currentState.validate()) {
                               print(emailController.text);
                               runMutation({
-                                "data": {
-                                  'email': emailController.text,
-                                  'username': userName.text.trim(),
-                                  'phonenumber': phoneNumber.phoneNumber,
-                                  'password': passwordController.text,
-                                  'referralCode': referralCode.text,
-                                  'callingCode': phoneNumber.dialCode,
-                                  'flag': phoneNumber.isoCode,
-                                  'phoneNumber': phoneNumber.phoneNumber
-                                }
+                                'email': emailController.text,
+                                'username': userName.text.trim(),
+                                'phonenumber': phoneNumber.phoneNumber,
+                                'password': passwordController.text,
+                                'referralCode': referralCode.text,
+                                'callingCode': phoneNumber.dialCode,
+                                'flag': phoneNumber.isoCode,
+                                'phoneNumber': phoneNumber.phoneNumber
                               });
                             }
                           },
