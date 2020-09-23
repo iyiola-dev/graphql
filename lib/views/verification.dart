@@ -3,11 +3,20 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:graph/views/dashboard.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
-class Verification extends StatelessWidget {
+class Verification extends StatefulWidget {
+  @override
+  _VerificationState createState() => _VerificationState();
+}
+
+class _VerificationState extends State<Verification> {
   String eror;
+
   String data;
+
   TextEditingController _verify = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
+
   String verify() {
     return """
   mutation verifyUser( 
@@ -40,9 +49,16 @@ class Verification extends StatelessWidget {
             documentNode: gql(verify()),
             onCompleted: (data) {
               print(data);
+              if (data != null) {
+                Navigator.pushReplacement(context,
+                    new MaterialPageRoute(builder: (_) => Dashboard()));
+              }
             },
             onError: (error) {
               print(error);
+              setState(() {
+                eror = error.toString();
+              });
             },
           ),
           builder: (runMutation, result) {
@@ -58,7 +74,7 @@ class Verification extends StatelessWidget {
                           fontWeight: FontWeight.bold)),
                   Container(
                     height: 20,
-                    child: Text("$eror"),
+                    child: Text(eror),
                   ),
                   SizedBox(
                     height: 50,

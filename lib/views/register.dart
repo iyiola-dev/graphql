@@ -166,7 +166,6 @@ class _RegisterState extends State<Register> {
                     ),
                     SizedBox(height: 30),
                     InternationalPhoneNumberInput(
-                      autoValidate: true,
                       selectorConfig: SelectorConfig(
                           selectorType: PhoneInputSelectorType.BOTTOM_SHEET),
                       initialValue: PhoneNumber(isoCode: 'NG'),
