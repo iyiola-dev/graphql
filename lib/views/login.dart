@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:graph/views/dashboard.dart';
 import 'package:graph/views/register.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
@@ -42,6 +43,8 @@ class Login extends StatelessWidget {
                   documentNode: gql(login()),
                   onCompleted: (data) {
                     print(data);
+                    Navigator.pushReplacement(context,
+                        new MaterialPageRoute(builder: (_) => Dashboard()));
                   },
                   onError: (error) {
                     print(error.graphqlErrors[0]);

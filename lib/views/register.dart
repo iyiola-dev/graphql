@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:graph/views/verification.dart';
 
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
@@ -49,6 +50,7 @@ class _RegisterState extends State<Register> {
   TextEditingController userName = TextEditingController();
   PhoneNumber phoneNumber = PhoneNumber();
   final _formKey = GlobalKey<FormState>();
+  String eror = '';
 
   @override
   Widget build(BuildContext context) {
@@ -63,9 +65,16 @@ class _RegisterState extends State<Register> {
               documentNode: gql(register()),
               onCompleted: (data) {
                 print(data);
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (_) => Verification(data: data)));
               },
               onError: (error) {
-                print(error.graphqlErrors[0]);
+                print(error);
+                setState(() {
+                  eror = error.toString();
+                });
               },
             ),
             builder: (RunMutation runMutation, QueryResult result) {
@@ -83,6 +92,10 @@ class _RegisterState extends State<Register> {
                       ),
                     ),
                     SizedBox(height: 50),
+                    Container(
+                      height: 20,
+                      child: Text(eror),
+                    ),
                     TextFormField(
                       controller: emailController,
                       validator: (value) {
