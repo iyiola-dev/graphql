@@ -6,7 +6,6 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 class Verification extends StatelessWidget {
   String eror;
   String data;
-  Verification({this.data});
   TextEditingController _verify = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   String verify() {
@@ -41,13 +40,9 @@ class Verification extends StatelessWidget {
             documentNode: gql(verify()),
             onCompleted: (data) {
               print(data);
-              Navigator.pushReplacement(
-                  context, new MaterialPageRoute(builder: (_) => Dashboard()));
             },
             onError: (error) {
               print(error);
-
-              eror = error.toString();
             },
           ),
           builder: (runMutation, result) {
@@ -63,7 +58,7 @@ class Verification extends StatelessWidget {
                           fontWeight: FontWeight.bold)),
                   Container(
                     height: 20,
-                    child: Text(eror),
+                    child: Text("$eror"),
                   ),
                   SizedBox(
                     height: 50,

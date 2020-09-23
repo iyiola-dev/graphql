@@ -65,10 +65,10 @@ class _RegisterState extends State<Register> {
               documentNode: gql(register()),
               onCompleted: (data) {
                 print(data);
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (_) => Verification(data: data)));
+                if (data != null) {
+                  Navigator.push(context,
+                      new MaterialPageRoute(builder: (_) => Verification()));
+                }
               },
               onError: (error) {
                 print(error);
@@ -91,10 +91,13 @@ class _RegisterState extends State<Register> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 50),
+                    SizedBox(height: 30),
                     Container(
-                      height: 20,
-                      child: Text(eror),
+                      height: 50,
+                      child: Text(
+                        eror,
+                        style: TextStyle(color: Colors.red),
+                      ),
                     ),
                     TextFormField(
                       controller: emailController,

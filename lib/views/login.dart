@@ -43,8 +43,10 @@ class Login extends StatelessWidget {
                   documentNode: gql(login()),
                   onCompleted: (data) {
                     print(data);
-                    Navigator.pushReplacement(context,
-                        new MaterialPageRoute(builder: (_) => Dashboard()));
+                    if (data != null) {
+                      Navigator.pushReplacement(context,
+                          new MaterialPageRoute(builder: (_) => Dashboard()));
+                    }
                   },
                   onError: (error) {
                     print(error.graphqlErrors[0]);
